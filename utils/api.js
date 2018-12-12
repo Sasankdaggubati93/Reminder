@@ -12,3 +12,12 @@ export function saveItem({ key, item }) {
 export function getItems() {
   return AsyncStorage.getItem(KEY).then(formattedResults);
 }
+
+export function removeEntry(key) {
+  return AsyncStorage.getItem(KEY).then(results => {
+    const data = JSON.parse(results);
+    data[key] = undefined;
+    delete data[key];
+    AsyncStorage.setItem(KEY, JSON.stringify(data));
+  });
+}

@@ -12,7 +12,7 @@ import { saveItem, getItems } from "../utils/api";
 import { connect } from "react-redux";
 import { idGen } from "../utils/helpers";
 import { NavigationActions } from "react-navigation";
-class AddNote extends Component {
+class EditNote extends Component {
   state = {
     title: this.props.title,
     text: this.props.text
@@ -108,4 +108,4 @@ function mapStateToProps(state, { navigation }) {
     };
   }
 }
-export default connect(mapStateToProps)(AddNote);
+export default connect(mapStateToProps)(EditNote);

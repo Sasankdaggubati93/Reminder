@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet
+} from "react-native";
 import { connect } from "react-redux";
 import { getItems } from "../utils/api";
 import { getList } from "../actions";
+import Note from "./Note";
 class History extends Component {
   componentDidMount() {
     let { dispatch } = this.props;
@@ -10,22 +18,38 @@ class History extends Component {
       dispatch(getList(items));
     });
   }
+
+  viewNote = (key, title, note) => {
+    this.props.navigation.navigate("AddNote", {
+      key: key,
+      title: title,
+      note: note
+    });
+  };
   render() {
     let { items } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {Object.keys(items).map(key => (
-          <View key={key} style={styles.noteCard}>
-            <Text style={styles.title}>{items[key].title}</Text>
-            <Text style={styles.notes}>{items[key].text}</Text>
-          </View>
+          <TouchableOpacity
+            key={key}
+            onPress={() =>
+              this.props.navigation.navigate("EditNote", { key: key })
+            }
+          >
+            <Note
+              itemKey={key}
+              viewNote={this.viewNote}
+              key={key}
+              note={items[key]}
+            />
+          </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     );
   }
 }
 function mapStateToProps(items) {
-  console.log("notes", items);
   return {
     items
   };
